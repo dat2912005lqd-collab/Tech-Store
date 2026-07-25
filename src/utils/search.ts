@@ -1,0 +1,4 @@
+class useSearch{
+    debounce(){}
+    highlightKeyword(){}
+}

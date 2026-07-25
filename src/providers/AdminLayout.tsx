@@ -1,0 +1,4 @@
+class AdminLayout{
+    renderSidebar(){}
+    renderDashboard(){}
+}

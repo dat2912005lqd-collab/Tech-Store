@@ -1,0 +1,4 @@
+class AppProvider{
+    getContext(){}
+    setContext(){}
+}

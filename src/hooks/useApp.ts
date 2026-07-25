@@ -1,0 +1,4 @@
+class UseApp{
+    initialize(){}
+    destroy(){}
+}
