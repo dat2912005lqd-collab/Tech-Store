@@ -1,7 +1,10 @@
-import {CartProduct} from "../../models/cart";
+import React from 'react';
+import {CartProduct} from "../../models/carts";
+
 interface Props{
     item:CartProduct;
 }
+
 function CartItem({
     item
 }:Props){

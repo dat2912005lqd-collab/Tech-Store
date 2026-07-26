@@ -1,7 +1,10 @@
+import React from 'react';
 import { Product } from "../../models/product";
+
 interface Props {
     product: Product;
 }
+
 function ProductCard({
     product
 }: Props) {

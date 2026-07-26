@@ -1,4 +1,0 @@
-class PaymentService{
-    getPaymentMethods(){}
-    validatePayment(){}
-}

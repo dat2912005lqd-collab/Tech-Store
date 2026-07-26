@@ -1,4 +1,0 @@
-class CheckoutService{
-    validate(){}
-    placeDemoOrder(){}
-}

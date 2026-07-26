@@ -1,7 +1,10 @@
+import React from 'react';
 import { useState } from "react";
+
 interface Props {
     onSearch: (keyword: string) => void;
 }
+
 function SearchBar({
     onSearch
 }: Props) {
