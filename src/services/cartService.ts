@@ -1,9 +1,14 @@
+import apiClient from "./apiClient";
 class CartService {
-    getAll() {}
-    getById(id: number) {}
-    getByUserId(userId: number) {}
-    create(cart: any) {}
-    update(id: number, cart: any) {}
-    delete(id: number) {}
+    async getCart(id:number) {
+        const response =await apiClient.get(`/cart/${id}`);
+        return response.data;
+    }
+    async addProduct(cart: any) {
+        return apiClient.post("/carts/add",cart);
+    }
+    update(id: number, cart: any) {
+        return apiClient.put("/carts/${id}",cart);
+    }
 }
 export default new CartService();

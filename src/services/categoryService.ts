@@ -1,4 +1,8 @@
+import apiClient from "./apiClient";
 class CategoryService {
-    getAll() {}
+    async getAll() {
+        const response=await apiClient.get("products/categories");
+        return response data;
+    }
 }
 export default new CategoryService();

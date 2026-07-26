@@ -1,5 +1,9 @@
 class OrderService{
-    getOrders(){}
-    createOrder(){}
-    clearOrder(){}
+    checkout(cart:any){
+        return Promise.resolve({
+            success:true,
+            orderId:Date.now(),cart
+        });
+    }
 }
+export default new OrderService();

@@ -1,7 +1,12 @@
-class useFiltering{
-    getFilter(){
-        
-    }
-    applyFilter(){}
-    clearFilter(){}
-}
+import{
+    useState
+} from "react";
+export const useFiltering=()=>{
+    const [
+        category, setCategory
+    ]=useState("");
+    return {
+        category, setCategory,
+        clear:()=> setCategory("")
+    };
+};

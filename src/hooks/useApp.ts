@@ -1,4 +1,6 @@
-class UseApp{
-    initialize(){}
-    destroy(){}
-}
+import {
+    useAppStore
+} from "../store/appStore";
+export const useApp=() =>{
+    return useAppStore();
+};
