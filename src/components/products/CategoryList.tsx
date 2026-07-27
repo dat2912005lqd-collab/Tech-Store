@@ -16,7 +16,6 @@ const CategoryList = ({
     <div className="flex flex-wrap gap-3">
       {categories.map((category) => (
         <CategoryItem
-          key={category}
           category={category}
           isActive={category === activeCategory}
           onClick={() => onSelectCategory?.(category)}

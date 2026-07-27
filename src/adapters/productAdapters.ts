@@ -1,3 +1,4 @@
+import type { Product } from "../models/product";
 class ProductAdapters{
     toModel(data:any):Product{
         return{

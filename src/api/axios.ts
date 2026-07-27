@@ -1,5 +1,11 @@
 import axios from "axios";
-
+const axiosClient = axios.create({
+    baseURL: "http://localhost:8080/api",
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
+export default axiosClient;
 export interface ApiError {
     code: string;
     message: string;
@@ -10,18 +16,19 @@ export interface ApiError {
 export class ErrorHandler {
     public static getError(error: unknown): ApiError {
         if (axios.isAxiosError(error)) {
-            const status = error.response?.status ?? 0;
-            const data = error.response?.data;
+            const axiosError=error as any;
+            const status =axiosError.response?.status ?? 0;
+            const data = axiosError.response?.data;
 
             return {
                 code:
                     typeof data?.code === "string"
                         ? data.code
-                        : error.code ?? "API_ERROR",
+                        : axiosError.code ?? "API_ERROR",
                 message:
                     typeof data?.message === "string"
                         ? data.message
-                        : error.message || "Unknown API error",
+                        : axiosError.message || "Unknown API error",
                 status,
                 details: data,
             };

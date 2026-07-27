@@ -1,8 +1,8 @@
 import React from 'react';
-import {CartProduct} from "../../models/carts";
+import { CartItem } from "../../models/carts";
 
 interface Props{
-    item:CartProduct;
+    item:CartItem;
 }
 
 function CartItem({

@@ -6,15 +6,16 @@ export interface Review{
     reviewerEmail:string;
 }
 export interface Product{
-    id:string;
+    id:number;
     title:string;
     description:string;
     price:number;
     discountPercentage:number;
+    category:string;
     rating:number;
     stock:number;
     brand:string;
     thumbnail:string;
-    image:string;
+    images:string[];
     reviews:Review[];
 }

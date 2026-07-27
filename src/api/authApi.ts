@@ -1,4 +1,4 @@
-import apiClient from "../api/apiClient";
+import apiClient from "../api/apiClients";
 const login=(data:any)=>{
     return apiClient.post("/auth/login",data);
 }
