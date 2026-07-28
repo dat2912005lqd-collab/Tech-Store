@@ -1,4 +1,4 @@
- 
+ import {Order} from '@/types';
 class OrderRepository {
   async list() {
     const res = await fetch('/api/orders');

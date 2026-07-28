@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Product } from '../../models/product';
 
 interface ProductDetailProps {

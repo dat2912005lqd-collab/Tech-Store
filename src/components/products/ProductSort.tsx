@@ -1,4 +1,4 @@
-import React from 'react';
+import {ChangeEvent} from 'react';
 
 type SortField = 'title' | 'price' | 'rating' | 'createdAt';
 type SortOrder = 'asc' | 'desc';
@@ -45,8 +45,8 @@ const ProductSort = ({ value, onChange }: ProductSortProps) => {
       <label className="text-sm font-medium text-slate-700">
         Sắp xếp
         <select
-          value={value.field}
-          onChange={(e) => handleFieldChange(e.target.value)}
+          value={value.order}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleOrderChange(e.target.value)}
           className="ml-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
         >
           {sortFields.map((item) => (
@@ -61,7 +61,7 @@ const ProductSort = ({ value, onChange }: ProductSortProps) => {
         Thứ tự
         <select
           value={value.order}
-          onChange={(e) => handleOrderChange(e.target.value)}
+           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleOrderChange(e.target.value)}
           className="ml-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
         >
           {sortOrders.map((item) => (

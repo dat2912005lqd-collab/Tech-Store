@@ -1,24 +1,17 @@
-import React, {
-    createContext, 
-    useContext,
-    useState
-} from "react";
+import React, { createContext, useContext, useState } from "react";
 
-const LanguageContext=createContext<any>(null);
-export function LanguageProvider({children}:{
-    children:React.ReactNode
-}){
-    const[
-        language, setLanguage
-    ]=useState("vi");
-    return(
-        <LanguageContext.Provider
-            value={{
-                language, setLanguage
-            }}>
-                {children}
-            </LanguageContext.Provider>
-    );
+// Thêm Interface để tránh lỗi 'any'
+interface LanguageContextType {
+  language: string;
+  setLanguage: (lang: string) => void;
 }
-export const useLanguageContext=()=>
-    useContext(LanguageContext);
+const LanguageContext = createContext<LanguageContextType | null>(null);
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguage] = useState("vi");
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+export const useLanguageContext = () => useContext(LanguageContext);

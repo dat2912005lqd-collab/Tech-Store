@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { CartItem } from "../../models/carts";
 
 interface Props{

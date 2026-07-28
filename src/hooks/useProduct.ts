@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useEffect, useState} from "react";
 import productService from "../services/productService"
 import { Product } from "../models/product";

@@ -5,6 +5,7 @@ export interface Category{
     description?:string;
     icon?:string;
     image?:string;
+    url:string;
 }
 export interface RawCategoryResponse{
     id?: string| number;

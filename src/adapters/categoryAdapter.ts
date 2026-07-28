@@ -1,4 +1,4 @@
-import { Category } from "../model/category";
+import { Category } from "../models/category";
 class CategoryAdapter{
     toModel(data:any):Category{
         return{

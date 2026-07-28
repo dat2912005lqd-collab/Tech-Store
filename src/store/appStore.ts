@@ -1,7 +1,7 @@
 import { create } from "zustand";
 interface AppState{
     theme:"light"|"dark";
-    language;string;
+    language:string;
     setTheme:(
         theme:"light"|"dark"
     )=>void;

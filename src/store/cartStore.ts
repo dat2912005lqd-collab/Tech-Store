@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CartProduct } from "../models/cart";
+import { CartProduct } from "../models/carts";
 interface CartState{
     items:CartProduct[];
     total:number;
@@ -14,7 +14,7 @@ interface CartState{
 export const useCartStore=create<CartState>(
     (set,get)=>({
         items:[],
-        total=0,
+        total:0,
         addItem:(item)=>{
             const items=[
                 ...get().items, item

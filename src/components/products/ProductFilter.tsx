@@ -1,4 +1,4 @@
-import React from 'react';
+import {ChangeEvent} from 'react';
 
 export interface ProductFilterValue {
   categorySlug?: string;
@@ -39,7 +39,7 @@ const ProductFilter = ({
           Danh mục
           <select
             value={value.categorySlug ?? ''}
-            onChange={(e) => update({ categorySlug: e.target.value || undefined })}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => update({ categorySlug: e.target.value || undefined })}
             className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
           >
             <option value="">Tất cả</option>
@@ -58,7 +58,7 @@ const ProductFilter = ({
             min="0"
             step="0.01"
             value={value.minPrice ?? ''}
-            onChange={(e) => update({ minPrice: normalizeNumber(e.target.value) })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => update({ minPrice: normalizeNumber(e.target.value) })}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
           />
         </label>
@@ -70,7 +70,7 @@ const ProductFilter = ({
             min="0"
             step="0.01"
             value={value.maxPrice ?? ''}
-            onChange={(e) => update({ maxPrice: normalizeNumber(e.target.value) })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => update({ inStockOnly: e.target.checked })}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
           />
         </label>
@@ -79,7 +79,7 @@ const ProductFilter = ({
           <input
             type="checkbox"
             checked={Boolean(value.inStockOnly)}
-            onChange={(e) => update({ inStockOnly: e.target.checked })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => update({ inStockOnly: e.target.checked })}
             className="h-4 w-4 rounded border-slate-300"
           />
           Chỉ còn hàng

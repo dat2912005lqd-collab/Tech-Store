@@ -1,6 +1,4 @@
-import React from 'react';
 import { useState } from "react";
-
 interface Props {
     onSearch: (keyword: string) => void;
 }
@@ -14,7 +12,7 @@ function SearchBar({
             type="text"
             placeholder="Search product..."
             value={keyword}
-            onChange={(e) => {
+            onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                 setKeyword(e.target.value);
                 onSearch(e.target.value);
             }}

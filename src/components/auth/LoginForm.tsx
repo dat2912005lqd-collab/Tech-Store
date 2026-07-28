@@ -1,6 +1,4 @@
-import React from 'react';
 import { useState } from "react";
-
 interface Props{
     onSubmit:(
         username:string,
@@ -14,15 +12,15 @@ function LoginForm({
     const [password, setPassword]=useState("");
     return(
         <form
-            onSubmit={(e)=>{
+            onSubmit={(e: React.FormEvent<HTMLFormElement>)=>{
                 e.preventDefault();
                 onSubmit(username, password);
             }}
-        >
+            >
         <input 
 laceholder="Username"
                 value={username}
-                onChange={(e) =>
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) =>
                     setUsername(e.target.value)
                 }
             />
@@ -30,7 +28,7 @@ laceholder="Username"
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) =>
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) =>
                     setPassword(e.target.value)
                 }
             />
