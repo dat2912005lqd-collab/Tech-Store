@@ -1,0 +1,7 @@
+{
+    "CompilerOption":{
+        "composite":true,
+        "module":"ESNext", 
+        "moduleResolution":"Node"
+    }
+}

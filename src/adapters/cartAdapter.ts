@@ -1,4 +1,4 @@
-import { Cart, CartItem } from "../models/carts";
+import {Cart, CartItem } from "../models/carts";
 
 class CartAdapter {
     toModel(data: any): Cart {
