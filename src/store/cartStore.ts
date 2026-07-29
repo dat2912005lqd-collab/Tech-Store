@@ -20,7 +20,7 @@ export const useCartStore=create<CartState>(
                 ...get().items, item
             ];
             set({
-                items, total:item.reduce(
+                items, total:item.productsId.reduce(
                     (sum,i)=>sum+i.price*i.quantity,0)
     });
 },
