@@ -14,4 +14,12 @@ class AuthService{
         localStorage.removeItem("refresh_token");
     }
 }
+export const register = async (userData: any) => {
+  try {
+    const response = await apiClient.post('/auth/register', userData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export default new AuthService();

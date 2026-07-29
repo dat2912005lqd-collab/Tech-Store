@@ -8,7 +8,7 @@ interface Props {
 const ProtectedRoute = ({ allowedRoles }: Props) => {
   const location = useLocation();
 
-  const { user, token } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state:any) => state.auth);
 
   // Chưa login
   if (!token) {

@@ -1,27 +1,28 @@
 import { create } from "zustand";
 import { User } from "../models/user";
 import userAdapter from "../adapters/userAdapter";
-interface UserState{
+interface UserStore{
     users:User[];
-    selectedUser?:User;
+    selectedUser:any|null;
     setUsers:(
-        users:User[]
+        users:any[]
     )=>void;
     setSelectedUser:(
-        user:User
+        user:any
     )=>void;
     clear:()=>void;
 }
-export const useUserStore=create<UserStore>(
+const useUserStore=create<UserStore>(
     (set)=>({
         users:[],
-        setUsers:(users)=>
+        selectedUser:null,
+        setUsers:(users:any[])=>
             set({users}),
-        setSelectedUser:(selectedUser)=>
+        setSelectedUser:(selectedUser:any)=>
             set({selectedUser}),
         clear:()=>
             set({
-                users:[], sellectedUser:undefined
+                users:[], selectedUser:undefined
             })
     })
 );

@@ -7,8 +7,10 @@ const navItems = [
   { to: '/admin/orders', label: 'Đơn hàng' },
   { to: '/admin/users', label: 'Người dùng' },
 ];
-
-const AdminLayout = () => {
+interface AdminLayoutProps{
+  isActive:boolean;
+}
+const AdminLayout = ({isActive}:AdminLayoutProps) => {
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="flex min-h-screen">

@@ -23,6 +23,11 @@ export const usePagination=(pageSize=10)=>{
             setPage(page-1);
         }
     };
+    const goToPage=(page:number)=>{
+        if(page<totalPages){
+            setPage(page);
+        }
+    };
     return {
         page,
         pageSize,

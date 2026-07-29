@@ -1,36 +1,40 @@
-const useCart = () => {
-    const loadCarts = () => {
-        // Implementation for loading carts
-    };
+const API_URL='http://localhost:5000/api/carts';
+const cartService = {
+    loadCarts:async() => {
+        const res=await fetch(API_URL);
+        return res.json();
+    },
 
-    const loadCartById = (id: number) => {
-        // Implementation for loading cart by ID
-    };
+    loadCartById:async(id:number) => {
+        const res=await fetch(`${API_URL}/${id}`);
+        return res.json()
+    },
+    
+    loadCartsByUserId:async(userId: number) => {
+        const res=await fetch(`${API_URL}?userId=${userId}`);
+        return res.json()
+    },
+    createCart:async(cart: any) => {
+        const res=await fetch(API_URL,{
+            method:"POST",
+            headers:{'Content-Type':'/application/json'},
+            body:JSON.stringify(cart)
+        });
+        return res.json()
+    },
 
-    const loadCartsByUserId = (userId: number) => {
-        // Implementation for loading carts by user ID
-    };
+    updateCart:async(id: number, cart: any) => {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cart)
+        });
+        return res.json();
+    },
 
-    const createCart = (cart: any) => {
-        // Implementation for creating a cart
-    };
-
-    const updateCart = (id: number, cart: any) => {
-        // Implementation for updating a cart
-    };
-
-    const deleteCart = (id: number) => {
-        // Implementation for deleting a cart
-    };
-
-    return {
-        loadCarts,
-        loadCartById,
-        loadCartsByUserId,
-        createCart,
-        updateCart,
-        deleteCart
-    };
-};
-
-export default useCart;
+    deleteCart:async(id: number) => {
+        const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        return res.json();
+    },
+}
+export default cartService;

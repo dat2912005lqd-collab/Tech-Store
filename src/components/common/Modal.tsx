@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+
 interface ModalProps {
   open: boolean;
   onClose: () => void;
@@ -10,7 +10,7 @@ const Modal = ({ open, onClose, children }: ModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div className="w-full max-w-lg rounded-xl bg-white p-5 shadow-xl" 
-      onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         {children}
       </div>
     </div>

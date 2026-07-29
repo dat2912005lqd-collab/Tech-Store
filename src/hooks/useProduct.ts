@@ -8,7 +8,7 @@ export const useProduct=(
 )=>{
     const[
         product, setProduct
-    ]=useState<Product>();
+    ]=useState<Product|null>(null);
     const[
         loading, setLoading
     ]=useState(false);

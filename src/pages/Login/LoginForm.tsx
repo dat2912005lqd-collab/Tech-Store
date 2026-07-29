@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
 import './Login.css';
 
 type LoginFormValues = {
@@ -13,11 +12,11 @@ function LoginForm() {
     password: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(values);
   };

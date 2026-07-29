@@ -1,5 +1,6 @@
-class Error{
-    setError(){}
-    clearError(){}
-    getError(){}
+interface AppError {
+  message: string;
+  code: number;
 }
+
+

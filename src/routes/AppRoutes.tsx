@@ -1,33 +1,25 @@
 
-import {
-    BrowserRouter,
-    Routes,
-    Route
-} from "react-route-dom";
+import {BrowserRouter,Routes, Route} from "react-router-dom";
 import ROUTES from "../constants/routes";
 import HomePage from "../pages/Login/LoginPage";
-import ProductListPage from "../pages/Products/ProductListPage";
-import ProdutcDetailPage from "/pages/Products/ProductDetailPage";
+import ProductListPage from "../pages/Products/ProductListPage"; 
+import ProductDetailPage from "../pages/Products/ProductDetailPage"; 
 function AppRoutes()
 {
     return (
         <BrowserRouter>
             <Routes>
                 <Route
-                    path={ROUTES.HƠME}
+                    path={ROUTES.HOME}
                     element={<HomePage/>}
                 />
                 <Route
                     path={ROUTES.PRODUCTS}
-                    element={<LoginPage/>}
-                />
-                <Route
-                    path={ROUTES.PRODUCTS}
-                    element={<ProductListPage />}
+                    element={<ProductListPage/>}
                 />
 
                 <Route
-                    path={ROUTES.PRODUCT_DETAIL}
+                    path={ROUTES.PRODUCT_DETAILS}
                     element={<ProductDetailPage />}
                 />
 

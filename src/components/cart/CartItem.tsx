@@ -1,5 +1,5 @@
 
-import { CartItem } from "../../models/carts";
+import { type CartItem } from "../../models/carts";
 
 interface Props{
     item:CartItem;

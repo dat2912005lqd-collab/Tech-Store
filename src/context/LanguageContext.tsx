@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {ReactNode} from 'react';
+import { createContext, useContext, useState } from "react";
 
 // Thêm Interface để tránh lỗi 'any'
 interface LanguageContextType {
+  children:ReactNode;
   language: string;
   setLanguage: (lang: string) => void;
 }

@@ -15,7 +15,7 @@ class ProductService{
         return response.data;
     }
     async search(keyword:string){
-        const response=await.apiClient.get(
+        const response=await apiClient.get(
             `/products/search?q=${keyword}`
         );
         return response.data;

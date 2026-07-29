@@ -14,6 +14,9 @@ const UserSearchPage = () => {
     const q = query.toLowerCase();
     return users.filter((user) => user.name.toLowerCase().includes(q) || user.email.toLowerCase().includes(q));
   }, [query]);
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <div className="space-y-4">
@@ -26,7 +29,7 @@ const UserSearchPage = () => {
         className="w-full rounded-md border px-3 py-2"
         placeholder="Nhập tên hoặc email..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleChange}
       />
 
       <div className="space-y-2">
