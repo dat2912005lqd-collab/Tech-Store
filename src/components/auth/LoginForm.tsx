@@ -18,7 +18,7 @@ function LoginForm({
             }}
             >
         <input 
-laceholder="Username"
+placeholder="Username"
                 value={username}
                 onChange={(e:React.ChangeEvent<HTMLInputElement>) =>
                     setUsername(e.target.value)

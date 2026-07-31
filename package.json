@@ -1,5 +1,5 @@
 {
-    "react-dom": "^19.2.8",
+  "react-dom": "^19.2.8",
   "name": "tech-store",
   "private": true,
   "version": "1.0.0",
