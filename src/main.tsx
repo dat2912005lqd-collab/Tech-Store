@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import React from 'react';
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { AppProvider } from "./context/AppContext";
@@ -6,9 +6,9 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { SessionProvider } from "./context/SessionContext";
 import { ThemeProvider } from "./context/ThemeContext";
-
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <StrictMode>
+import '/index.css';
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
     {/* 2. Bọc App bên trong các Provider. Thứ tự ưu tiên bọc ngoài cùng trước */}
     <AppProvider>
       <LanguageProvider>
@@ -21,5 +21,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </ThemeProvider>
       </LanguageProvider>
     </AppProvider>
-  </StrictMode>
+  </React.StrictMode>
 );

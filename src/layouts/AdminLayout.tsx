@@ -7,10 +7,8 @@ const navItems = [
   { to: '/admin/orders', label: 'Đơn hàng' },
   { to: '/admin/users', label: 'Người dùng' },
 ];
-interface AdminLayoutProps{
-  isActive:boolean;
-}
-const AdminLayout = ({isActive}:AdminLayoutProps) => {
+
+const AdminLayout = () => {
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="flex min-h-screen">
@@ -26,7 +24,7 @@ const AdminLayout = ({isActive}:AdminLayoutProps) => {
                 key={item.to}
                 to={item.to}
                 end={item.end}
-                className={({ isActive }) =>
+                className={({ isActive }:{isActive:boolean}) =>
                   `block rounded-md px-3 py-2 text-sm transition ${
                     isActive
                       ? 'bg-blue-600 text-white'

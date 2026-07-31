@@ -12,7 +12,7 @@ interface UserStore{
     )=>void;
     clear:()=>void;
 }
-const useUserStore=create<UserStore>(
+export const useUserStore=create<UserStore>(
     (set)=>({
         users:[],
         selectedUser:null,

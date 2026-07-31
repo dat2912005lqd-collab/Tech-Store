@@ -1,4 +1,4 @@
-import apiClient from "../api/apiClient";
+import apiClient from "../api/apiClients";
 class AuthService{
     login(email: string, password: string) {
         return apiClient.post("/auth/login", { email, password });

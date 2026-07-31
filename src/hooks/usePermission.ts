@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {useAuthStore} from "@/store/authStore";
+import { useAuthStore } from "@/store/authStore";
 export class UsePermission{
     constructor(private roles:string[]=[]){
 
@@ -19,7 +19,7 @@ export default function usePermission() {
   return useMemo(() => {
     const roles =
       user?.role
-        ?? [user.role.toLowerCase()]
+        ? [user?.role.toLowerCase()]
         : [];
     return new UsePermission(roles);
   }, [user]);

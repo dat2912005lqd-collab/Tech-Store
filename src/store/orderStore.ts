@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Order } from "../models/order";
+import { Order } from "../types/order";
 interface OrderState{
     orders:Order[];
     addOrder:(

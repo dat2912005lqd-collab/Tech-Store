@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAppSelector } from "../store/hooks";
+import { useSessionContext } from "@/context/SessionContext";
 
 interface Props {
   allowedRoles?: string[];
@@ -8,7 +8,7 @@ interface Props {
 const ProtectedRoute = ({ allowedRoles }: Props) => {
   const location = useLocation();
 
-  const { user, token } = useAppSelector((state:any) => state.auth);
+  const { user, token } = useSessionContext();
 
   // Chưa login
   if (!token) {

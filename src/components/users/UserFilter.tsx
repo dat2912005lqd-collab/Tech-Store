@@ -8,7 +8,7 @@ interface UserFilterProps{
 const UserFilter=({value, onChange}:UserFilterProps)=>(
     <input
     value={value}
-    onChange={(e) => onChange(e.target.value)}
+    onChange={(e:React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
     placeholder="Tìm người dùng..."
     className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
   />

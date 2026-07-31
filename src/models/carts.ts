@@ -15,7 +15,8 @@ export interface CartProduct {
     total:number;
     discountPercentage:number;
     discountTotal:number;
-    thumbnail:string
+    thumbnail:string;
+    reduce:number;
 }
 export interface Cart{
     id:number;

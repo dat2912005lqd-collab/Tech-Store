@@ -1,5 +1,5 @@
 import axiosClient from "./axios";
-const apiClients = {
+export const apiClients = {
     get(url:string)
     {
         return axiosClient.get(url);

@@ -13,7 +13,7 @@ interface AuthState{
         user:User
     )=> void;
 }
-export const useAuthScore=create<AuthState>(
+export const useAuthStore=create<AuthState>(
     (set)=>({
         user:null,
         accessToken:null,
