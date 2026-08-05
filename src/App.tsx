@@ -407,6 +407,8 @@ function App() {
     return sortedProducts.find((product) => product.id === selectedProductId) ?? null;
   }, [selectedProductId, sortedProducts]);
 
+  const featuredProducts = useMemo(() => sortedProducts.slice(0, 4), [sortedProducts]);
+
   const totalCartValue = useMemo(() => {
     return cart.reduce((total, item) => total + item.discountedPrice * item.quantity, 0);
   }, [cart]);
@@ -593,238 +595,329 @@ function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f7fb', padding: 24, fontFamily: 'Arial, sans-serif', color: '#111827' }}>
-      <div style={{ maxWidth: 1320, margin: '0 auto', display: 'grid', gap: 20 }}>
-        <header style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+    <div className="app-shell" style={{ minHeight: '100vh', padding: 24, fontFamily: 'Inter, Arial, sans-serif', color: '#111827' }}>
+      <div style={{ maxWidth: 1380, margin: '0 auto', display: 'grid', gap: 20 }}>
+        <nav className="top-nav" style={{ background: '#fff', borderRadius: 24, padding: '16px 20px', boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 14, background: 'linear-gradient(135deg, #2563eb 0%, #38bdf8 100%)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', fontWeight: 800, boxShadow: '0 12px 24px rgba(37, 99, 235, 0.25)' }}>T</div>
             <div>
-              <p style={{ margin: 0, color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Tech Store</p>
-              <h1 style={{ margin: '6px 0', fontSize: 28 }}>Demo catalog công nghệ với auth, cart và reviews</h1>
-              <p style={{ margin: 0, color: '#4b5563' }}>Các tính năng chính được mô phỏng nhẹ để giữ cấu trúc project gốc nhưng vẫn gần đúng checklist.</p>
-            </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ padding: '6px 10px', borderRadius: 999, background: '#dbeafe', color: '#1d4ed8', fontSize: 13 }}>Simulated</span>
-              <span style={{ padding: '6px 10px', borderRadius: 999, background: networkOnline ? '#dcfce7' : '#fee2e2', color: networkOnline ? '#166534' : '#991b1b', fontSize: 13 }}>
-                {networkOnline ? 'Online' : 'Offline'}
-              </span>
-              {session ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <strong>{session.user.username}</strong>
-                  <button type="button" onClick={() => clearSession()} style={{ border: 'none', borderRadius: 8, padding: '8px 10px', cursor: 'pointer' }}>
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <span style={{ color: '#6b7280' }}>Chưa đăng nhập</span>
-              )}
+              <div style={{ fontWeight: 800, fontSize: 18, color: '#0f172a', letterSpacing: '0.08em' }}>TECHSTORE</div>
+              <div style={{ fontSize: 12, color: '#64748b' }}>Premium electronics • curated experience</div>
             </div>
           </div>
-        </header>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <a href="#" style={{ color: '#0f172a', textDecoration: 'none', fontWeight: 600, padding: '8px 10px', borderRadius: 999, background: '#f8fafc' }}>Điện thoại</a>
+            <a href="#" style={{ color: '#475569', textDecoration: 'none', fontWeight: 600, padding: '8px 10px', borderRadius: 999 }}>Laptop</a>
+            <a href="#" style={{ color: '#475569', textDecoration: 'none', fontWeight: 600, padding: '8px 10px', borderRadius: 999 }}>Tablet</a>
+            <a href="#" style={{ color: '#475569', textDecoration: 'none', fontWeight: 600, padding: '8px 10px', borderRadius: 999 }}>Âm thanh</a>
+          </div>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <button type="button" onClick={() => setSelectedCategory('all')} style={{ background: '#f8fafc', color: '#0f172a', fontWeight: 700 }}>Danh mục</button>
+            <button type="button" style={{ background: '#111827', color: '#fff', fontWeight: 700 }}>Giỏ hàng ({cart.length})</button>
+          </div>
+        </nav>
 
-        {statusMessage ? <div style={{ background: '#eff6ff', color: '#1d4ed8', padding: '10px 12px', borderRadius: 10 }}>{statusMessage}</div> : null}
+        {statusMessage ? <div style={{ background: '#eff6ff', color: '#1d4ed8', padding: '12px 14px', borderRadius: 14, border: '1px solid #bfdbfe' }}>{statusMessage}</div> : null}
 
-        <div style={{ display: 'grid', gap: 20, gridTemplateColumns: '1.2fr 0.8fr' }}>
-          <div style={{ display: 'grid', gap: 20 }}>
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-                <h2 style={{ margin: 0 }}>Authentication</h2>
-                <button type="button" onClick={handleProtectedProfile} disabled={profileLoading} style={{ border: 'none', borderRadius: 8, padding: '8px 10px', cursor: 'pointer', background: '#111827', color: '#fff', opacity: profileLoading ? 0.7 : 1 }}>
-                  {profileLoading ? 'Restoring...' : '/auth/me'}
+        <section style={{ display: 'grid', gap: 20, gridTemplateColumns: '1.15fr 0.85fr' }}>
+          <div className="hero-card" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #38bdf8 100%)', borderRadius: 30, padding: 28, color: '#fff', display: 'grid', gap: 16, position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', inset: 'auto -30px -30px auto', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', filter: 'blur(0px)' }} />
+            <div className="hero-pills" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <span>Bảo hành chính hãng</span>
+              <span>Giao hàng nội thành</span>
+              <span>Ưu đãi cuối tuần</span>
+            </div>
+            <h1 style={{ margin: 0, fontSize: 40, lineHeight: 1.12, maxWidth: 620 }}>Thiết bị công nghệ tốt hơn cho mỗi ngày</h1>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.86)', fontSize: 16, maxWidth: 660 }}>Khám phá điện thoại, laptop, tai nghe và phụ kiện với trải nghiệm mua sắm hiện đại, bố cục rõ ràng và cảm giác chuyên nghiệp.</p>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <button type="button" style={{ background: '#fff', color: '#0f172a', fontWeight: 700, padding: '12px 16px' }}>Mua ngay</button>
+              <button type="button" style={{ background: 'rgba(255,255,255,0.16)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', fontWeight: 700, padding: '12px 16px' }}>Xem ưu đãi</button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginTop: 6 }}>
+              <div className="stat-pill" style={{ background: 'rgba(255,255,255,0.14)', borderRadius: 16, padding: 12 }}>
+                <div style={{ fontWeight: 800, fontSize: 18 }}>4.9/5</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.78)' }}>Đánh giá khách hàng</div>
+              </div>
+              <div className="stat-pill" style={{ background: 'rgba(255,255,255,0.14)', borderRadius: 16, padding: 12 }}>
+                <div style={{ fontWeight: 800, fontSize: 18 }}>30 ngày</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.78)' }}>Đổi trả dễ dàng</div>
+              </div>
+              <div className="stat-pill" style={{ background: 'rgba(255,255,255,0.14)', borderRadius: 16, padding: 12 }}>
+                <div style={{ fontWeight: 800, fontSize: 18 }}>24/7</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.78)' }}>Hỗ trợ kỹ thuật</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-side-card" style={{ background: 'linear-gradient(145deg, #ffffff 0%, #eef4ff 100%)', borderRadius: 30, padding: 24, boxShadow: '0 18px 40px rgba(15, 23, 42, 0.08)', border: '1px solid rgba(148, 163, 184, 0.18)', display: 'grid', gap: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ color: '#2563eb', fontWeight: 700, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Hot deal</div>
+                <h3 style={{ margin: '4px 0 0', fontSize: 24, color: '#0f172a' }}>iPhone 15 Pro</h3>
+              </div>
+              <div style={{ padding: '6px 10px', borderRadius: 999, background: '#dbeafe', color: '#1d4ed8', fontWeight: 700, fontSize: 12 }}>Mới</div>
+            </div>
+            <div style={{ borderRadius: 24, overflow: 'hidden', background: '#e2e8f0', position: 'relative' }}>
+              <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80" alt="iPhone" style={{ width: '100%', height: 270, objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(15,23,42,0.05) 0%, rgba(15,23,42,0.28) 100%)' }} />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <div>
+                <div style={{ fontWeight: 800, fontSize: 20, color: '#0f172a' }}>29.990.000 ₫</div>
+                <div style={{ fontSize: 13, color: '#64748b' }}>Tiết kiệm 3 triệu</div>
+              </div>
+              <button type="button" onClick={() => setSelectedCategory('smartphones')} style={{ background: '#2563eb', color: '#fff', fontWeight: 700, padding: '10px 14px' }}>Xem điện thoại</button>
+            </div>
+          </div>
+        </section>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+          <div className="feature-card" style={{ background: '#fff', borderRadius: 18, padding: 16, border: '1px solid #e2e8f0', boxShadow: '0 12px 28px rgba(15, 23, 42, 0.05)' }}>
+            <div style={{ fontSize: 20, marginBottom: 8 }}>🚚</div>
+            <div style={{ fontWeight: 800, color: '#0f172a' }}>Giao hàng siêu tốc</div>
+            <div style={{ color: '#64748b', marginTop: 4, fontSize: 14 }}>Nội thành trong 2 giờ cho các đơn gần bạn.</div>
+          </div>
+          <div className="feature-card" style={{ background: '#fff', borderRadius: 18, padding: 16, border: '1px solid #e2e8f0', boxShadow: '0 12px 28px rgba(15, 23, 42, 0.05)' }}>
+            <div style={{ fontSize: 20, marginBottom: 8 }}>🛡️</div>
+            <div style={{ fontWeight: 800, color: '#0f172a' }}>Thanh toán an toàn</div>
+            <div style={{ color: '#64748b', marginTop: 4, fontSize: 14 }}>Mã hóa dữ liệu và trải nghiệm checkout demo rõ ràng.</div>
+          </div>
+          <div className="feature-card" style={{ background: '#fff', borderRadius: 18, padding: 16, border: '1px solid #e2e8f0', boxShadow: '0 12px 28px rgba(15, 23, 42, 0.05)' }}>
+            <div style={{ fontSize: 20, marginBottom: 8 }}>✨</div>
+            <div style={{ fontWeight: 800, color: '#0f172a' }}>Tư vấn chuyên sâu</div>
+            <div style={{ color: '#64748b', marginTop: 4, fontSize: 14 }}>Đội ngũ hỗ trợ chọn thiết bị phù hợp nhất cho bạn.</div>
+          </div>
+        </div>
+
+        <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <div>
+              <h2 style={{ margin: 0 }}>Khám phá theo loại</h2>
+              <div style={{ color: '#64748b', fontSize: 14, marginTop: 4 }}>Lọc sản phẩm theo nhóm thiết bị yêu thích</div>
+            </div>
+            <div style={{ color: '#64748b', fontSize: 14 }}>Bấm vào nhóm để xem sản phẩm phù hợp</div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginTop: 16 }}>
+            {['all', ...categories].filter((category, index, list) => list.indexOf(category) === index).slice(0, 8).map((category) => {
+              const label = category === 'all' ? 'Tất cả' : category.replace(/-/g, ' ').replace(/\b\w/g, (value) => value.toUpperCase());
+              const active = selectedCategory === category;
+              const icon = category === 'all' ? '🧭' : category.includes('phone') ? '📱' : category.includes('lap') ? '💻' : category.includes('watch') ? '⌚' : category.includes('head') ? '🎧' : '📦';
+              return (
+                <button key={category} type="button" onClick={() => setSelectedCategory(category)} className="category-pill" style={{ background: active ? 'linear-gradient(135deg, #0f172a 0%, #2563eb 100%)' : '#f8fafc', color: active ? '#fff' : '#0f172a', padding: '14px 14px', borderRadius: 18, fontWeight: 700, textAlign: 'left', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 16 }}>{icon}</span>
+                  <span>{label}</span>
                 </button>
-              </div>
-              {!session ? (
-                <form onSubmit={handleLogin} style={{ display: 'grid', gap: 10, marginTop: 12 }}>
-                  <input value={authForm.username} onChange={(event) => setAuthForm((current) => ({ ...current, username: event.target.value }))} placeholder="username" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '10px 12px' }} />
-                  <input type="password" value={authForm.password} onChange={(event) => setAuthForm((current) => ({ ...current, password: event.target.value }))} placeholder="password" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '10px 12px' }} />
-                  {authError ? <div style={{ color: '#b91c1c' }}>{authError}</div> : null}
-                  <button type="submit" style={{ border: 'none', borderRadius: 8, padding: '10px 12px', cursor: 'pointer', background: '#2563eb', color: '#fff' }}>Login</button>
-                </form>
-              ) : (
-                <div style={{ marginTop: 12 }}>
-                  <p style={{ margin: '0 0 8px' }}>Đăng nhập thành công. Token được lưu trong storage đã namespace.</p>
-                  <p style={{ margin: 0, color: '#6b7280' }}>Profile ưu tiên /auth/me và refresh token sẽ được thử một lần khi cần.</p>
-                </div>
-              )}
-            </section>
+              );
+            })}
+          </div>
+        </section>
 
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
-                <h2 style={{ margin: 0 }}>Products / Categories / Search</h2>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search products" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }} />
-                  <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)} style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }}>
-                    <option value="all">All categories</option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                  <select value={sortField} onChange={(event) => setSortField(event.target.value as SortField)} style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }}>
-                    <option value="title">Title</option>
-                    <option value="price">Price</option>
-                    <option value="rating">Rating</option>
-                  </select>
-                  <select value={sortOrder} onChange={(event) => setSortOrder(event.target.value as SortOrder)} style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }}>
-                    <option value="asc">Asc</option>
-                    <option value="desc">Desc</option>
-                  </select>
-                </div>
-              </div>
-              {loading ? (
-                <div style={{ display: 'grid', gap: 10 }}>
-                  {Array.from({ length: 4 }).map((_, index) => (
-                    <div key={index} style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 12, display: 'flex', gap: 12 }}>
-                      <div style={{ width: 90, height: 90, borderRadius: 10, background: '#e5e7eb' }} />
-                      <div style={{ flex: 1, display: 'grid', gap: 8 }}>
-                        <div style={{ height: 12, width: '60%', background: '#e5e7eb', borderRadius: 999 }} />
-                        <div style={{ height: 10, width: '90%', background: '#f3f4f6', borderRadius: 999 }} />
-                        <div style={{ height: 10, width: '70%', background: '#f3f4f6', borderRadius: 999 }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <>
-                  {productsError ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12, padding: '10px 12px', background: '#fef2f2', color: '#b91c1c', borderRadius: 10 }}>
-                      <span>{productsError}</span>
-                      <button type="button" onClick={() => setRefreshVersion((value) => value + 1)} style={{ border: 'none', borderRadius: 8, padding: '8px 10px', cursor: 'pointer', background: '#2563eb', color: '#fff' }}>
-                        Retry
-                      </button>
-                    </div>
-                  ) : null}
+        <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
+            <div>
+              <h2 style={{ margin: 0 }}>Sản phẩm được yêu thích</h2>
+              <div style={{ color: '#64748b', marginTop: 4 }}>Các thiết bị nổi bật và đáng chú ý nhất hiện nay</div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Tìm sản phẩm" style={{ minWidth: 220 }} />
+              <select value={sortField} onChange={(event) => setSortField(event.target.value as SortField)} style={{ minWidth: 140 }}>
+                <option value="title">Tên</option>
+                <option value="price">Giá</option>
+                <option value="rating">Đánh giá</option>
+              </select>
+              <select value={sortOrder} onChange={(event) => setSortOrder(event.target.value as SortOrder)} style={{ minWidth: 120 }}>
+                <option value="asc">Tăng dần</option>
+                <option value="desc">Giảm dần</option>
+              </select>
+            </div>
+          </div>
 
-                  {sortedProducts.length === 0 ? (
-                    <div style={{ color: '#6b7280' }}>Empty catalog. No matching products.</div>
-                  ) : (
-                    <div style={{ display: 'grid', gap: 12 }}>
-                      {sortedProducts.map((product) => (
-                        <div key={product.id} style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 12, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                          <img src={safeImageUrl(product.thumbnail)} alt={product.title} style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: 10 }} onError={(event) => { event.currentTarget.src = PLACEHOLDER_IMAGE; }} />
-                          <div style={{ flex: 1 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                              <strong>{product.title}</strong>
-                              <span style={{ color: '#f59e0b' }}>★ {product.rating}</span>
-                            </div>
-                            <p style={{ margin: '6px 0', color: '#6b7280' }}>{product.description}</p>
-                            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', color: '#374151' }}>
-                              <span>${product.price}</span>
-                              <span>{product.brand}</span>
-                              <span>{product.category}</span>
-                            </div>
-                          </div>
-                          <div style={{ display: 'grid', gap: 8 }}>
-                            <button type="button" onClick={() => toggleProductDetail(product.id)} style={{ border: 'none', borderRadius: 8, padding: '8px 10px', cursor: 'pointer', background: '#111827', color: '#fff' }}>
-                              {selectedProductId === product.id ? 'Hide details' : 'View details'}
-                            </button>
-                            <button type="button" onClick={() => addToCart(product)} style={{ border: 'none', borderRadius: 8, padding: '8px 10px', cursor: 'pointer', background: '#2563eb', color: '#fff' }}>
-                              Add to cart
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </section>
-
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <h2 style={{ marginTop: 0 }}>Users</h2>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-                <select value={userFilterKey} onChange={(event) => setUserFilterKey(event.target.value)} style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }}>
-                  <option value="username">username</option>
-                  <option value="firstName">firstName</option>
-                  <option value="lastName">lastName</option>
-                  <option value="email">email</option>
-                </select>
-                <input value={userFilterValue} onChange={(event) => setUserFilterValue(event.target.value)} placeholder="case-sensitive value" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px', minWidth: 180 }} />
-              </div>
-              <div style={{ display: 'grid', gap: 10 }}>
-                {filteredUsers.map((user) => (
-                  <div key={user.id} style={{ border: '1px solid #e5e7eb', borderRadius: 10, padding: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <img src={user.image} alt={user.username} style={{ width: 44, height: 44, borderRadius: '50%' }} onError={(event) => { event.currentTarget.src = 'https://via.placeholder.com/44'; }} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+            {featuredProducts.map((product) => {
+              const finalPrice = normalizePrice(product.price, product.discountPercentage);
+              return (
+                <div key={product.id} className="product-card" style={{ display: 'grid', gap: 10, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 12, right: 12, padding: '6px 8px', borderRadius: 999, background: '#dbeafe', color: '#1d4ed8', fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Best seller</div>
+                  <div style={{ borderRadius: 20, overflow: 'hidden', background: '#f8fafc' }}>
+                    <img src={safeImageUrl(product.thumbnail)} alt={product.title} style={{ width: '100%', height: 180, objectFit: 'cover' }} onError={(event) => { event.currentTarget.src = PLACEHOLDER_IMAGE; }} />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#2563eb', fontWeight: 700, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{product.category}</span>
+                    <span style={{ color: '#f59e0b', fontWeight: 700 }}>★ {product.rating}</span>
+                  </div>
+                  <strong style={{ fontSize: 16, color: '#0f172a' }}>{product.title}</strong>
+                  <p style={{ margin: 0, color: '#64748b', minHeight: 44 }}>{product.description}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
                     <div>
-                      <strong>{user.firstName} {user.lastName}</strong>
-                      <div style={{ color: '#6b7280' }}>{user.username}</div>
+                      <div style={{ fontWeight: 800, color: '#0f172a' }}>{finalPrice.toLocaleString('vi-VN')} ₫</div>
+                      <div style={{ fontSize: 12, color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toLocaleString('vi-VN')} ₫</div>
+                    </div>
+                    <button type="button" onClick={() => addToCart(product)} style={{ background: '#2563eb', color: '#fff', fontWeight: 700 }}>Thêm vào giỏ</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <div style={{ display: 'grid', gap: 20, gridTemplateColumns: '1.25fr 0.75fr' }}>
+          <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 14 }}>
+              <h2 style={{ margin: 0 }}>Danh sách sản phẩm</h2>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)} style={{ minWidth: 160 }}>
+                  <option value="all">Tất cả danh mục</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {loading ? (
+              <div style={{ display: 'grid', gap: 10 }}>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} style={{ border: '1px solid #e2e8f0', borderRadius: 16, padding: 12, display: 'flex', gap: 12 }}>
+                    <div style={{ width: 84, height: 84, borderRadius: 14, background: '#e2e8f0' }} />
+                    <div style={{ flex: 1, display: 'grid', gap: 8 }}>
+                      <div style={{ height: 10, width: '60%', background: '#e2e8f0', borderRadius: 999 }} />
+                      <div style={{ height: 10, width: '80%', background: '#f8fafc', borderRadius: 999 }} />
                     </div>
                   </div>
                 ))}
               </div>
-            </section>
-          </div>
+            ) : (
+              <div style={{ display: 'grid', gap: 12 }}>
+                {sortedProducts.map((product) => (
+                  <div key={product.id} style={{ border: '1px solid #e2e8f0', borderRadius: 18, padding: 12, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <img src={safeImageUrl(product.thumbnail)} alt={product.title} style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 14 }} onError={(event) => { event.currentTarget.src = PLACEHOLDER_IMAGE; }} />
+                    <div style={{ flex: 1, minWidth: 220 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                        <strong>{product.title}</strong>
+                        <span style={{ color: '#f59e0b', fontWeight: 700 }}>★ {product.rating}</span>
+                      </div>
+                      <p style={{ margin: '6px 0', color: '#64748b' }}>{product.description}</p>
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <span style={{ background: '#dbeafe', color: '#1d4ed8', padding: '4px 8px', borderRadius: 999, fontSize: 12, fontWeight: 700 }}>{product.brand}</span>
+                        <span style={{ background: '#f1f5f9', color: '#475569', padding: '4px 8px', borderRadius: 999, fontSize: 12 }}>{product.category}</span>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      <button type="button" onClick={() => toggleProductDetail(product.id)} style={{ background: '#111827', color: '#fff', fontWeight: 700 }}>Chi tiết</button>
+                      <button type="button" onClick={() => addToCart(product)} style={{ background: '#2563eb', color: '#fff', fontWeight: 700 }}>Giỏ hàng</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
 
           <div style={{ display: 'grid', gap: 20 }}>
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <h2 style={{ marginTop: 0 }}>Cart</h2>
-              {cart.length === 0 ? <div style={{ color: '#6b7280' }}>Guest cart is empty.</div> : cart.map((item) => (
-                <div key={item.id} style={{ border: '1px solid #e5e7eb', borderRadius: 10, padding: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+                <h2 style={{ margin: 0 }}>Đăng nhập</h2>
+                <button type="button" onClick={handleProtectedProfile} disabled={profileLoading} style={{ background: '#111827', color: '#fff', fontWeight: 700 }}>
+                  {profileLoading ? 'Đang tải...' : '/auth/me'}
+                </button>
+              </div>
+              {!session ? (
+                <form onSubmit={handleLogin} style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+                  <input value={authForm.username} onChange={(event) => setAuthForm((current) => ({ ...current, username: event.target.value }))} placeholder="Tên đăng nhập" />
+                  <input type="password" value={authForm.password} onChange={(event) => setAuthForm((current) => ({ ...current, password: event.target.value }))} placeholder="Mật khẩu" />
+                  {authError ? <div style={{ color: '#b91c1c' }}>{authError}</div> : null}
+                  <button type="submit" style={{ background: '#2563eb', color: '#fff', fontWeight: 700 }}>Đăng nhập</button>
+                </form>
+              ) : (
+                <div style={{ marginTop: 12, color: '#475569' }}>
+                  <p style={{ marginBottom: 8 }}>Bạn đang đăng nhập với {session.user.username}.</p>
+                  <button type="button" onClick={() => clearSession()} style={{ background: '#f8fafc', color: '#0f172a', fontWeight: 700 }}>Đăng xuất</button>
+                </div>
+              )}
+            </section>
+
+            <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+              <h2 style={{ marginTop: 0 }}>Giỏ hàng</h2>
+              {cart.length === 0 ? <div style={{ color: '#64748b' }}>Giỏ hàng đang trống.</div> : cart.map((item) => (
+                <div key={item.id} style={{ border: '1px solid #e2e8f0', borderRadius: 14, padding: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                   <div>
                     <strong>{item.title}</strong>
-                    <div style={{ color: '#6b7280' }}>Qty {item.quantity}</div>
+                    <div style={{ color: '#64748b', fontSize: 12 }}>SL {item.quantity}</div>
                   </div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <button type="button" onClick={() => updateCartQuantity(item.id, item.quantity - 1)} style={{ border: '1px solid #d1d5db', borderRadius: 6, padding: '4px 8px', cursor: 'pointer' }}>-</button>
-                    <button type="button" onClick={() => updateCartQuantity(item.id, item.quantity + 1)} style={{ border: '1px solid #d1d5db', borderRadius: 6, padding: '4px 8px', cursor: 'pointer' }}>+</button>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button type="button" onClick={() => updateCartQuantity(item.id, item.quantity - 1)} style={{ background: '#f8fafc', color: '#0f172a' }}>-</button>
+                    <button type="button" onClick={() => updateCartQuantity(item.id, item.quantity + 1)} style={{ background: '#f8fafc', color: '#0f172a' }}>+</button>
                   </div>
                 </div>
               ))}
-              <div style={{ marginTop: 10, fontWeight: 700 }}>Total: ${totalCartValue.toFixed(2)}</div>
+              <div style={{ marginTop: 10, fontWeight: 800, color: '#0f172a' }}>Tổng: ${totalCartValue.toFixed(2)}</div>
             </section>
 
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <h2 style={{ marginTop: 0 }}>Checkout</h2>
+            <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+              <h2 style={{ marginTop: 0 }}>Thanh toán</h2>
               <form onSubmit={handleCheckout} style={{ display: 'grid', gap: 10 }}>
-                <input value={checkoutInfo.card} onChange={(event) => setCheckoutInfo((current) => ({ ...current, card: event.target.value }))} placeholder="Card number (demo only)" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }} />
-                <input value={checkoutInfo.address} onChange={(event) => setCheckoutInfo((current) => ({ ...current, address: event.target.value }))} placeholder="Shipping address" style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 10px' }} />
-                <button type="submit" style={{ border: 'none', borderRadius: 8, padding: '10px 12px', cursor: 'pointer', background: '#059669', color: '#fff' }}>Checkout demo</button>
+                <input value={checkoutInfo.card} onChange={(event) => setCheckoutInfo((current) => ({ ...current, card: event.target.value }))} placeholder="Số thẻ demo" />
+                <input value={checkoutInfo.address} onChange={(event) => setCheckoutInfo((current) => ({ ...current, address: event.target.value }))} placeholder="Địa chỉ giao hàng" />
+                <button type="submit" style={{ background: '#059669', color: '#fff', fontWeight: 700 }}>Thanh toán demo</button>
                 {checkoutSuccess ? <div style={{ color: '#059669' }}>{checkoutSuccess}</div> : null}
               </form>
             </section>
 
-            <section style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)' }}>
-              <h2 style={{ marginTop: 0 }}>Product detail</h2>
+            <section style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)' }}>
+              <h2 style={{ marginTop: 0 }}>Chi tiết sản phẩm</h2>
               {selectedProduct ? (
-                <div>
-                  <h3>{selectedProduct.title}</h3>
-                  <p>{selectedProduct.description}</p>
-                  <p style={{ color: '#2563eb' }}>Discounted price: ${normalizePrice(selectedProduct.price, selectedProduct.discountPercentage).toFixed(2)}</p>
-                  <div style={{ marginTop: 8 }}>
-                    <strong>Reviews</strong>
-                    <div style={{ display: 'grid', gap: 6, marginTop: 8 }}>
+                <div style={{ display: 'grid', gap: 8 }}>
+                  <strong>{selectedProduct.title}</strong>
+                  <p style={{ margin: 0, color: '#64748b' }}>{selectedProduct.description}</p>
+                  <div style={{ color: '#2563eb', fontWeight: 700 }}>Giá ưu đãi: ${normalizePrice(selectedProduct.price, selectedProduct.discountPercentage).toFixed(2)}</div>
+                  <div style={{ marginTop: 6 }}>
+                    <strong>Đánh giá</strong>
+                    <div style={{ display: 'grid', gap: 6, marginTop: 6 }}>
                       {selectedProduct.reviews?.map((review) => (
-                        <div key={review.id} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                            <div style={{ fontWeight: 700 }}>{review.reviewerName}</div>
+                        <div key={review.id} style={{ border: '1px solid #e2e8f0', borderRadius: 12, padding: 8 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontWeight: 700 }}>{review.reviewerName}</span>
                             <span style={{ fontSize: 12, color: '#2563eb', background: '#dbeafe', padding: '3px 8px', borderRadius: 999 }}>{review.source === 'local-demo' ? 'local-demo' : 'embedded'}</span>
                           </div>
-                          <div style={{ color: '#6b7280', marginTop: 4 }}>{review.body}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ marginTop: 12 }}>
-                    <strong>Comments</strong>
-                    <div style={{ display: 'grid', gap: 6, marginTop: 8 }}>
-                      {comments.filter((comment) => comment.postId === selectedProduct.id).map((comment) => (
-                        <div key={comment.id} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                            <div style={{ fontWeight: 700 }}>{comment.userName}</div>
-                            <span style={{ fontSize: 12, color: '#059669', background: '#dcfce7', padding: '3px 8px', borderRadius: 999 }}>simulated</span>
-                          </div>
-                          <div style={{ color: '#6b7280', marginTop: 4 }}>{comment.body}</div>
+                          <div style={{ color: '#64748b', marginTop: 4 }}>{review.body}</div>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
               ) : (
-                <div style={{ color: '#6b7280' }}>Product not found state.</div>
+                <div style={{ color: '#64748b' }}>Chọn một sản phẩm để xem chi tiết.</div>
               )}
             </section>
           </div>
         </div>
+
+        <section style={{ background: 'linear-gradient(135deg, #0f172a 0%, #111827 100%)', borderRadius: 28, padding: 28, color: '#fff', display: 'grid', gap: 20, gridTemplateColumns: '1fr 0.9fr' }}>
+          <div>
+            <div style={{ color: '#38bdf8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 12 }}>Đăng ký nhận ưu đãi</div>
+            <h2 style={{ margin: '8px 0 10px', fontSize: 28, color: '#fff' }}>Nhận thông tin khuyến mãi mới nhất</h2>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)', maxWidth: 520 }}>Cập nhật ngay các chương trình giảm giá, sản phẩm mới và chính sách giao hàng.</p>
+          </div>
+          <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 20, padding: 18, display: 'grid', gap: 10 }}>
+            <input placeholder="Email của bạn" style={{ background: '#fff', color: '#0f172a' }} />
+            <button type="button" style={{ background: '#38bdf8', color: '#0f172a', fontWeight: 800 }}>Đăng ký demo</button>
+          </div>
+        </section>
+
+        <footer style={{ background: '#fff', borderRadius: 24, padding: 24, boxShadow: '0 12px 35px rgba(15, 23, 42, 0.08)', display: 'grid', gap: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 16, color: '#0f172a' }}>TechStore</div>
+              <div style={{ color: '#64748b', marginTop: 4 }}>Demo React với dữ liệu DummyJSON cho mục đích học tập.</div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, color: '#475569', flexWrap: 'wrap' }}>
+              <span>Điện thoại</span>
+              <span>Laptop</span>
+              <span>Tablet</span>
+              <span>Phụ kiện</span>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );

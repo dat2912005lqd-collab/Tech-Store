@@ -1,4 +1,15 @@
-/* Reset CSS cơ bản */
+:root {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #0f172a;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 40%, #fdf2f8 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,11 +17,136 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 40%, #fdf2f8 100%);
+  color: #0f172a;
 }
 
 #root {
   min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.app-shell section {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.app-shell header {
+  background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 50%, #38bdf8 100%);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 24px 55px rgba(30, 64, 175, 0.25);
+  color: white;
+}
+
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+  border: 1px solid #dbe6f3;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f8fbff;
+  color: #0f172a;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell input:focus,
+.app-shell select:focus,
+.app-shell textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.app-shell button {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.app-shell button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.app-shell .hero-pills span {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.app-shell .product-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  padding: 14px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.app-shell .product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.09);
+  border-color: #bfdbfe;
+}
+
+.app-shell .hero-card,
+.app-shell .hero-side-card {
+  position: relative;
+}
+
+.app-shell .stat-pill,
+.app-shell .feature-card,
+.app-shell .category-pill {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell .stat-pill:hover,
+.app-shell .feature-card:hover,
+.app-shell .category-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.app-shell .product-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.app-shell .top-nav {
+  border: 1px solid rgba(148, 163, 184, 0.16);
 }
